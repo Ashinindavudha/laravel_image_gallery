@@ -17,11 +17,9 @@
 					<input type="file" class="custom-file-input" name="avatar" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
 					<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
 				</div>
-
-			</div>
-			<div class="input-group-append">
 				<input type="submit" class="btn btn-outline-secondary" name="" value="Upload">
 			</div>
+			
 		</form>
 	</div>
 	
@@ -30,10 +28,20 @@
 <div class="card-columns">
 	@foreach ($avatars as $avatar)
 	<div class="card">
-		<img src="{{ $avatar->getUrl() }}" class="card-img-top" alt="...">
+		<img src="{{ $avatar->getUrl('card') }}" class="card-img-top" alt="Card image cap">
 		<div class="card-body">
-			<h5 class="card-title">Card title that wraps to a new line</h5>
-			<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+			<div class="float-left">
+				<a href="" onclick="event.preventDefault();document.getElementById('selectForm{{$avatar->id}}').submit()"><i class="fa fa-check fa-2x text-success"></i></a>
+				<form action="{{route('avatar.update',auth()->id())}}" style="display: none;" id="selectForm{{$avatar->id}}" method="post">
+					@csrf
+					@method('put')
+					<input type="hidden" name="selectedAvatar" type="submit" value="{{$avatar->id}}">
+				</form>
+				
+				<a href=""><i class="fa fa-minus fa-2x text-danger" aria-hidden="true"></i></a></div>
+			<div class="float-right">
+				<a href=""><i class="fa fa-eye fa-2x text-info" aria-hidden="true"></i></a>
+					<a href=""><i class="fa fa-download fa-2x text-primary" aria-hidden="true"></i></a></div>
 		</div>
 	</div>
 @endforeach

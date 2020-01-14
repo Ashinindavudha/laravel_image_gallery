@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\File;
@@ -45,7 +46,23 @@ class User extends Authenticatable implements HasMedia
     {
         $this->addMediaCollection('avatar') ->acceptsFile(function (File $file) {
             return $file->mimeType === 'image/jpeg';
+        })
+        ->registerMediaConversions(function(Media $media){
+            $this->addMediaConversion('card')
+            ->width(400)
+            ->height(300);
+             $this->addMediaConversion('thumb')
+            ->width(100)
+            ->height(100);
         });
-        //add options
+        
+    }
+    public function avatar()
+    {
+        return $this->hasOne(Media::class, 'id', 'avatar_id');
+    }
+    public function getAvatarUrlAttribute()
+    {
+        return $this->avatar->getUrl('thumb');
     }
 }
