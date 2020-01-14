@@ -18,3 +18,7 @@ Route::get('/', function () {
 Route::get('image-gallery', 'ImageGalleryController@index');
 Route::post('image-gallery', 'ImageGalleryController@upload');
 Route::delete('image-gallery/{id}', 'ImageGalleryController@destroy');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
