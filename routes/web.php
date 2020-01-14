@@ -20,5 +20,7 @@ Route::post('image-gallery', 'ImageGalleryController@upload');
 Route::delete('image-gallery/{id}', 'ImageGalleryController@destroy');
 
 Auth::routes();
+Route::get('profile', 'AvatarController@index')->name('profile');
+Route::resource('avatar', 'AvatarController');
 
 Route::get('/home', 'HomeController@index')->name('home');
